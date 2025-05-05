@@ -1,0 +1,31 @@
+  services:
+    back-end:
+      build:
+        context: .
+        dockerfile: back-end/Dockerfile
+      image: softy-pinko-back-end:task4
+      expose:
+        - "5252"
+      deploy:
+        replicas: 2
+
+    front-end:
+      build:
+        context: .
+        dockerfile: front-end/Dockerfile
+      image: softy-pinko-front-end:task4
+      expose:
+        - "9000"
+      depends_on:
+        - back-end
+
+    proxy:
+      build:
+        context: .
+        dockerfile: proxy/Dockerfile
+      image: softy-pinko-proxy:task5
+      ports:
+        - "80:80"
+      depends_on:
+        - front-end
+        - back-end
